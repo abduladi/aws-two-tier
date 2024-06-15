@@ -1,5 +1,4 @@
-name: Example Service Release
-
+name: Deploy Terraform to AWS
 on:
   workflow_dispatch:
 
