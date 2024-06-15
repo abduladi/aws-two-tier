@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
         with:
-          node-version: 14.x
+          node-version: 18
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -34,10 +34,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
         with:
-          node-version: 14.x
+          node-version: 18
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -49,3 +49,10 @@ jobs:
           terraform fmt
           terraform init
           terraform apply -auto-approve
+
+
+# testing stack destroy
+      - name: Initialise project and deploy terraform
+        run: |
+          terraform plan -destroy 
+          terraform destroy -auto-approve
