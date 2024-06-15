@@ -15,7 +15,7 @@ resource "aws_db_instance" "app_db" {
   allocated_storage           = 10
   db_name                     = "n26prod"
   engine                      = "mysql"
-  engine_versi                = "8.0"
+  engine_version              = "8.0"
   multi_az                    = true
   identifier                  = "app-db-instance"
   instance_class              = "db.t2.micro"
