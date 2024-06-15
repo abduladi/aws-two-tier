@@ -1,6 +1,6 @@
 # Allocate Elastic IP Address (EIP 1)
 resource "aws_eip" "eip-for-nat-gateway-1" {
-  vpc    = true
+  domain = "vpc"
 
   tags   = {
     Name = "EIP 1"
