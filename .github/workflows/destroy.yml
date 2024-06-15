@@ -22,5 +22,6 @@ jobs:
       - name: Initialise project and view terraform plan
         run: |
           terraform fmt
+          terraform init
           terraform plan -destroy 
           terraform destroy -auto-approve
