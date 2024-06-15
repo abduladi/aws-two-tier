@@ -23,8 +23,6 @@ jobs:
         run: |
           pwd
           ls
-          cd terraform 
-          cd qa
           terraform fmt
           terraform init 
           terraform plan -var='example_api_key=${{ secrets.EXAMPLE_API_KEY }}'
@@ -48,8 +46,6 @@ jobs:
           aws-region: us-east-1
       - name: Initialise project and deploy terraform
         run: |
-          cd terraform
-          cd qa
           terraform fmt
           terraform init
           terraform apply -var='example_api_key=${{ secrets.EXAMPLE_API_KEY }}' --auto-approve=true
