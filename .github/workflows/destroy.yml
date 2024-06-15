@@ -1,4 +1,4 @@
-name: Deploy Terraform to AWS
+name: Delete Resources from AWS
 on:
   workflow_dispatch:
 
