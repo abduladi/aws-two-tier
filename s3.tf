@@ -79,26 +79,7 @@ resource "aws_s3_bucket_policy" "log_bucket_policy" {
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression's result to valid JSON syntax.
-  policy = jsonencode({
-
-    Version = "2012-10-17",
-    Statement = [
-        {
-            Sid = "S3ServerAccessLogsPolicy",
-            Effect = "Allow",
-            Principal = {
-                Service = "logging.s3.amazonaws.com"
-            },
-            Action = [
-                "s3:PutObject"
-            ],
-            Resource = "${aws_s3_bucket.log_bucket.id}/log*",
-            
-        }
-    ]
-
-
-  })
+  policy = data.aws_iam_policy_document.s3_server_access_logs_policy.json
 
 
 
