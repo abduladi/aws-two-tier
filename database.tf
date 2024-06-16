@@ -10,9 +10,17 @@ resource "aws_db_subnet_group" "database_subnet_group" {
   }
 }
 
-resource "aws_kms_key" "dbkms" {
-  description = "Database KMS Key"
-}
+
+
+# using AWS managed key. to use cmk, comment these out
+# resource "aws_kms_key" "dbkms" {
+#   description = "Database KMS Key"
+# }
+
+# resource "aws_kms_alias" "dbkms_alias" {
+#   name          = "alias/dbkms"
+#   target_key_id = aws_kms_key.dbkms.key_id
+# }
 
 
 resource "aws_db_instance" "app_db" {
@@ -24,7 +32,7 @@ resource "aws_db_instance" "app_db" {
   identifier                  = "app-db-instance"
   instance_class              = "db.t2.micro"
   manage_master_user_password = true
-  master_user_secret_kms_key_id = aws_kms_key.dbkms.key_id
+#   master_user_secret_kms_key_id = aws_kms_key.dbkms.key_id
 
   username                    = "dbuser"
   parameter_group_name        = "default.mysql8.0"
