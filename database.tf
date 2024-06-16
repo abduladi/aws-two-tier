@@ -28,7 +28,7 @@ resource "aws_rds_cluster" "app_db" {
   cluster_identifier = "app-db-instance"
   engine             = "aurora-postgresql"
   engine_mode        = "provisioned"
-  engine_version     = "13.6"
+  engine_version     = "15.4"
   database_name      = "n26prod"
   master_username    = "dbuser"
 #   master_user_secret_kms_key_id = aws_kms_key.dbkms.key_id
