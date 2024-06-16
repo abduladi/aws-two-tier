@@ -76,15 +76,9 @@ resource "aws_s3_bucket_logging" "bucket_logging" {
 
 resource "aws_s3_bucket_policy" "log_bucket_policy" {
   bucket = aws_s3_bucket.log_bucket.id
-
-  # Terraform's "jsonencode" function converts a
-  # Terraform expression's result to valid JSON syntax.
   policy = data.aws_iam_policy_document.s3_server_access_logs_policy.json
 
-
-
 }
-
 
 
 data "aws_iam_policy_document" "s3_server_access_logs_policy" {
@@ -102,7 +96,7 @@ data "aws_iam_policy_document" "s3_server_access_logs_policy" {
     ]
 
     resources = [
-      "${aws_s3_bucket.log_bucket.id}/log*"
+      "arn:aws:s3:::${aws_s3_bucket.log_bucket.bucket}/log*"
     ]
 
     
