@@ -34,24 +34,6 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "data_bucket_encry
 }
 
 
-# set ownership to bucket owner preferred so that act log delivery write can be assigned
-resource "aws_s3_bucket_ownership_controls" "data_bucket_ownership" {
-  bucket = aws_s3_bucket.data_bucket.id
-
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
-}
-
-resource "aws_s3_bucket_acl" "data_bucket_acl" {
-  depends_on = [aws_s3_bucket_ownership_controls.data_bucket_ownership]
-
-  bucket = aws_s3_bucket.data_bucket.id
-  acl    = "private"
-}
-
-
-
 
 
 
@@ -70,27 +52,13 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "log_bucket_encryp
   bucket = aws_s3_bucket.log_bucket.id
 
   rule {
+    # only SSE-S3 is supported for buckets that will be targets for access logs
     apply_server_side_encryption_by_default {
       sse_algorithm     = "AES256"
     }
   }
 }
 
-
-# set ownership to bucket owner preferred so that acl can be assigned
-resource "aws_s3_bucket_ownership_controls" "log_bucket_acl_ownership" {
-  bucket = aws_s3_bucket.log_bucket.id
-
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
-}
-
-resource "aws_s3_bucket_acl" "log_bucket_acl" {
-  depends_on = [aws_s3_bucket_ownership_controls.log_bucket_acl_ownership]
-  bucket = aws_s3_bucket.log_bucket.id
-  acl    = "log-delivery-write"
-}
 
 
 
@@ -100,3 +68,54 @@ resource "aws_s3_bucket_logging" "bucket_logging" {
   target_bucket = aws_s3_bucket.log_bucket.id
   target_prefix = "log/"
 }
+
+
+
+
+
+
+resource "aws_s3_bucket_policy" "log_bucket_policy" {
+  bucket = aws_s3_bucket.log_bucket.id
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression's result to valid JSON syntax.
+  policy = jsonencode({
+
+    Version: "2012-10-17",
+    Statement: [
+        {
+            Sid: "S3ServerAccessLogsPolicy",
+            Effect: "Allow",
+            Principal: {
+                Service: "logging.s3.amazonaws.com"
+            },
+            Action: [
+                "s3:PutObject"
+            ],
+            Resource: "${aws_s3_bucket.log_bucket.id}/log*",
+            Condition: {
+                ArnLike: {
+                    aws:SourceArn: "${aws_s3_bucket.data_bucket.id}"
+                }
+            }
+        }
+    ]
+
+
+  })
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+    
+					
