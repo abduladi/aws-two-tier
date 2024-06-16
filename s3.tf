@@ -95,7 +95,7 @@ resource "aws_s3_bucket_policy" "log_bucket_policy" {
             Resource: "${aws_s3_bucket.log_bucket.id}/log*",
             Condition: {
                 ArnLike: {
-                    aws:SourceArn: "${aws_s3_bucket.data_bucket.id}"
+                    aws:SourceArn: "${aws_s3_bucket.data_bucket.id}",
                 }
             }
         }
