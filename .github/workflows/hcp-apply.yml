@@ -11,7 +11,7 @@ env:
 
 jobs:
   terraform:
-    if: github.repository != 'abduladi/aws-two-tier'
+    # if: github.repository != 'abduladi/aws-two-tier'
     name: "Terraform Apply"
     runs-on: ubuntu-latest
     permissions:
