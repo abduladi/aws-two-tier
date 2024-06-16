@@ -82,20 +82,20 @@ resource "aws_s3_bucket_policy" "log_bucket_policy" {
   policy = jsonencode({
 
     Version: "2012-10-17",
-    Statement: [
+    Statement = [
         {
-            Sid: "S3ServerAccessLogsPolicy",
-            Effect: "Allow",
-            Principal: {
-                Service: "logging.s3.amazonaws.com"
+            Sid = "S3ServerAccessLogsPolicy",
+            Effect = "Allow",
+            Principal = {
+                Service = "logging.s3.amazonaws.com"
             },
-            Action: [
+            Action = [
                 "s3:PutObject"
             ],
-            Resource: "${aws_s3_bucket.log_bucket.id}/log*",
-            Condition: {
-                ArnLike: {
-                    aws:SourceArn: "${aws_s3_bucket.data_bucket.id}",
+            Resource = "${aws_s3_bucket.log_bucket.id}/log*",
+            Condition = {
+                ArnLike = {
+                    aws:SourceArn: "${aws_s3_bucket.data_bucket.id}"
                 }
             }
         }
