@@ -6,7 +6,7 @@ resource "random_id" "bucket_id" {
 
 # Create bucket for business data
 resource "aws_s3_bucket" "data_bucket" {
-  bucket = format("n26-data-%s", random_id.bucket_id.hex)
+  bucket = "n26-data-${random_id.bucket_id.hex}"
 
   # Enable versioning
   versioning {
@@ -29,7 +29,7 @@ resource "aws_s3_bucket" "data_bucket" {
 
 # Create logging bucket
 resource "aws_s3_bucket" "log_bucket" {
-  bucket = format("n26-logs-%s", random_id.bucket_id.hex)
+  bucket = "n26-logs-${random_id.bucket_id.hex}"
   acl    = "log-delivery-write"
 
   server_side_encryption_configuration {
