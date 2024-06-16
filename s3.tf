@@ -35,7 +35,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "data_bucket_encry
 
 
 # set ownership to bucket owner preferred so that act log delivery write can be assigned
-resource "aws_s3_bucket_ownership_controls" "data_bucket" {
+resource "aws_s3_bucket_ownership_controls" "data_bucket_ownership" {
   bucket = aws_s3_bucket.data_bucket.id
 
   rule {
@@ -44,6 +44,8 @@ resource "aws_s3_bucket_ownership_controls" "data_bucket" {
 }
 
 resource "aws_s3_bucket_acl" "data_bucket_acl" {
+  depends_on = [aws_s3_bucket_ownership_controls.data_bucket_ownership]
+
   bucket = aws_s3_bucket.data_bucket.id
   acl    = "private"
 }
@@ -76,7 +78,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "log_bucket_encryp
 
 
 # set ownership to bucket owner preferred so that acl can be assigned
-resource "aws_s3_bucket_ownership_controls" "log_bucket_acl" {
+resource "aws_s3_bucket_ownership_controls" "log_bucket_acl_ownership" {
   bucket = aws_s3_bucket.log_bucket.id
 
   rule {
@@ -85,6 +87,7 @@ resource "aws_s3_bucket_ownership_controls" "log_bucket_acl" {
 }
 
 resource "aws_s3_bucket_acl" "log_bucket_acl" {
+  depends_on = [aws_s3_bucket_ownership_controls.log_bucket_acl_ownership]
   bucket = aws_s3_bucket.log_bucket.id
   acl    = "log-delivery-write"
 }
