@@ -8,42 +8,88 @@ resource "random_id" "bucket_id" {
 resource "aws_s3_bucket" "data_bucket" {
   bucket = "n26-data-${random_id.bucket_id.hex}"
 
-  # Enable versioning
-  versioning {
-    enabled = true
-  }
-
-  # Enable server-side encryption by default
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
 
   tags = {
     Name = "N26 Data Bucket"
   }
 }
 
+# Enable versioning
+resource "aws_s3_bucket_versioning" "data_bucket_versioning" {
+  bucket = aws_s3_bucket.data_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# Enable server-side encryption by default
+resource "aws_s3_bucket_server_side_encryption_configuration" "data_bucket_encryption" {
+  bucket = aws_s3_bucket.data_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
+
+# set ownership to bucket owner preferred so that act log delivery write can be assigned
+resource "aws_s3_bucket_ownership_controls" "data_bucket" {
+  bucket = aws_s3_bucket.data_bucket.id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "data_bucket_acl" {
+  bucket = aws_s3_bucket.data_bucket.id
+  acl    = "private"
+}
+
+
+
+
+
+
 # Create logging bucket
 resource "aws_s3_bucket" "log_bucket" {
   bucket = "n26-logs-${random_id.bucket_id.hex}"
-  acl    = "log-delivery-write"
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
 
   tags = {
     Name = "Logging Bucket"
   }
 }
+
+
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "log_bucket_encryption" {
+  bucket = aws_s3_bucket.log_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
+
+# set ownership to bucket owner preferred so that acl can be assigned
+resource "aws_s3_bucket_ownership_controls" "log_bucket_acl" {
+  bucket = aws_s3_bucket.log_bucket.id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "log_bucket_acl" {
+  bucket = aws_s3_bucket.log_bucket.id
+  acl    = "log-delivery-write"
+}
+
+
 
 # Enable logging for the data bucket
 resource "aws_s3_bucket_logging" "bucket_logging" {
