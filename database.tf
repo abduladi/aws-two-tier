@@ -31,6 +31,7 @@ resource "aws_rds_cluster" "app_db" {
   engine_version     = "13.6"
   database_name      = "n26prod"
   master_username    = "dbuser"
+#   master_user_secret_kms_key_id = aws_kms_key.dbkms.key_id
   manage_master_user_password = true
   storage_encrypted  = true
   db_subnet_group_name     = aws_db_subnet_group.database_subnet_group.id
