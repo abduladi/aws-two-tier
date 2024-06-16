@@ -1,14 +1,12 @@
 
-
 # Generate a random ID for the S3 bucket name
-resource "random_id" "bucket-id" {
+resource "random_id" "bucket_id" {
   byte_length = 12
 }
 
-
 # Create bucket for business data
-resource "aws_s3_bucket" "data-bucket" {
-  bucket = format("n26-data-%s", random_id.bucket-id.hex)
+resource "aws_s3_bucket" "data_bucket" {
+  bucket = format("n26-data-%s", random_id.bucket_id.hex)
 
   # Enable versioning
   versioning {
@@ -25,14 +23,13 @@ resource "aws_s3_bucket" "data-bucket" {
   }
 
   tags = {
-    Name  = "N26 Data Bucket"
+    Name = "N26 Data Bucket"
   }
 }
 
-
-
-resource "aws_s3_bucket" "log-bucket" {
-  bucket = format("n26-logs-%s", random_id.bucket-id.hex)
+# Create logging bucket
+resource "aws_s3_bucket" "log_bucket" {
+  bucket = format("n26-logs-%s", random_id.bucket_id.hex)
   acl    = "log-delivery-write"
 
   server_side_encryption_configuration {
@@ -44,21 +41,13 @@ resource "aws_s3_bucket" "log-bucket" {
   }
 
   tags = {
-    Name  = "Logging Bucket"
-    
+    Name = "Logging Bucket"
   }
 }
 
-
-
-
-
-
-
 # Enable logging for the data bucket
-resource "aws_s3_bucket_logging" "bucket-logging" {
-  bucket = aws_s3_bucket.data-bucket.id
-
-  target_bucket = aws_s3_bucket.log-bucket.id
+resource "aws_s3_bucket_logging" "bucket_logging" {
+  bucket        = aws_s3_bucket.data_bucket.id
+  target_bucket = aws_s3_bucket.log_bucket.id
   target_prefix = "log/"
 }
