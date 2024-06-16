@@ -63,8 +63,8 @@ resource "aws_rds_cluster_parameter_group" "app_db_pg" {
   description = "RDS default cluster parameter group"
 
   parameter {
-    name  = "force_ssl"
-    value = 1
+    name  = "rds.force_ssl"
+    value = "1"
   }
 
 }
