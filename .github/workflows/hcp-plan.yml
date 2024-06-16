@@ -6,12 +6,12 @@ on:
 env:
   TF_CLOUD_ORGANIZATION: "N26-demo"
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
-  TF_WORKSPACE: "learn-terraform-github-actions"
+  TF_WORKSPACE: "n26-demo"
   CONFIG_DIRECTORY: "./"
 
 jobs:
   terraform:
-    if: github.repository != 'hashicorp-education/learn-terraform-github-actions'
+    if: github.repository != 'abduladi/aws-two-tier'
     name: "Terraform Plan"
     runs-on: ubuntu-latest
     permissions:
