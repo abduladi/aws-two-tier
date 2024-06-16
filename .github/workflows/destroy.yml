@@ -20,8 +20,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - name: Initialise project and view terraform plan
+        # run: |
+        #   terraform fmt
+        #   terraform init
+        #   terraform plan -destroy 
+        #   terraform destroy -auto-approve
         run: |
           terraform fmt
           terraform init
-          terraform plan -destroy 
-          terraform destroy -auto-approve
+          terraform plan -destroy -out=destroy.tfplan
+          terraform apply destroy.tfplan
