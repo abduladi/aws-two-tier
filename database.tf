@@ -36,7 +36,7 @@ resource "aws_rds_cluster" "app_db" {
   storage_encrypted  = true
   db_subnet_group_name     = aws_db_subnet_group.database_subnet_group.id
   vpc_security_group_ids      = [aws_security_group.database-security-group.id]
-  db_cluster_parameter_group_name   = aws_rds_cluster_parameter_group.app_db_pg.name
+  db_cluster_parameter_group_name   = aws_rds_cluster_parameter_group.app-db-pg.name
   skip_final_snapshot    = true
 
 
@@ -57,8 +57,8 @@ resource "aws_rds_cluster_instance" "app_db" {
 }
 
 
-resource "aws_rds_cluster_parameter_group" "app_db_pg" {
-  name        = "app_db_pg"
+resource "aws_rds_cluster_parameter_group" "app-db-pg" {
+  name        = "app-db-pg"
   family      = "aurora-postgresql15"
   description = "RDS default cluster parameter group"
 
