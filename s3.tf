@@ -129,7 +129,7 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
 }
 
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "cloudtrail_bucket" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "cloudtrail_bucket_encryption" {
   bucket = aws_s3_bucket.log_bucket.id
 
   rule {
@@ -137,8 +137,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "cloudtrail_bucket
       sse_algorithm     = "AES256"
     }
   }
-
-
+}
 
     
 					
