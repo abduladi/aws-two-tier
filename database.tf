@@ -23,20 +23,32 @@ resource "aws_db_subnet_group" "database_subnet_group" {
 # }
 
 
-resource "aws_db_instance" "app_db" {
-  allocated_storage           = 10
-  db_name                     = "n26prod"
-  engine                      = "mysql"
-  engine_version              = "8.0"
-  multi_az                    = true
-  identifier                  = "app-db-instance"
-  instance_class              = "db.t2.micro"
-  manage_master_user_password = true
-#   master_user_secret_kms_key_id = aws_kms_key.dbkms.key_id
 
-  username                    = "dbuser"
-  parameter_group_name        = "default.mysql8.0"
-  db_subnet_group_name        = aws_db_subnet_group.database_subnet_group.id
+resource "aws_rds_cluster" "app_db" {
+  cluster_identifier = "app-db-instance"
+  engine             = "aurora-postgresql"
+  engine_mode        = "provisioned"
+  engine_version     = "13.6"
+  database_name      = "n26prod"
+  master_username    = "dbuser"
+  manage_master_user_password = true
+  storage_encrypted  = true
+  db_subnet_group_name     = aws_db_subnet_group.database_subnet_group.id
   vpc_security_group_ids      = [aws_security_group.database-security-group.id]
-  skip_final_snapshot         = true
+
+
+
+  serverlessv2_scaling_configuration {
+    max_capacity = 1.0
+    min_capacity = 0.5
+  }
+}
+
+resource "aws_rds_cluster_instance" "app_db" {
+  cluster_identifier = aws_rds_cluster.app_db.id
+  instance_class     = "db.serverless"
+  engine             = aws_rds_cluster.app_db.engine
+  engine_version     = aws_rds_cluster.app_db.engine_version
+  publicly_accessible = false
+  db_subnet_group_name    = aws_db_subnet_group.database_subnet_group.id
 }
