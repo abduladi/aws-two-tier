@@ -106,6 +106,56 @@ resource "aws_s3_bucket_policy" "log_bucket_policy" {
 
 
 
+data "aws_iam_policy_document" "s3_server_access_logs_policy" {
+  statement {
+    sid    = "S3ServerAccessLogsPolicy"
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["logging.s3.amazonaws.com"]
+    }
+
+    actions = [
+      "s3:PutObject"
+    ]
+
+    resources = [
+      "${aws_s3_bucket.log_bucket.id}/log*"
+    ]
+
+    condition {
+      test     = "ArnLike"
+      variable = "aws:SourceArn"
+      values   = ["${aws_s3_bucket.data_bucket.id}"]
+    }
+
+    
+  }
+}
+
+
+
+
+
+# New S3 bucket for CloudTrail logs
+resource "aws_s3_bucket" "cloudtrail_bucket" {
+  bucket = "n26-logs-${random_id.bucket_id.hex}"
+
+  tags = {
+    Name = "Logging Bucket"
+  }
+}
+
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "cloudtrail_bucket" {
+  bucket = aws_s3_bucket.log_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "AES256"
+    }
+  }
 
 
 
