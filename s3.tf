@@ -81,7 +81,7 @@ resource "aws_s3_bucket_policy" "log_bucket_policy" {
   # Terraform expression's result to valid JSON syntax.
   policy = jsonencode({
 
-    Version: "2012-10-17",
+    Version = "2012-10-17",
     Statement = [
         {
             Sid = "S3ServerAccessLogsPolicy",
@@ -93,11 +93,7 @@ resource "aws_s3_bucket_policy" "log_bucket_policy" {
                 "s3:PutObject"
             ],
             Resource = "${aws_s3_bucket.log_bucket.id}/log*",
-            Condition = {
-                ArnLike = {
-                    aws:SourceArn = "${aws_s3_bucket.data_bucket.id}"
-                }
-            }
+            
         }
     ]
 
