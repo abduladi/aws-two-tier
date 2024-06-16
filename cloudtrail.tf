@@ -1,5 +1,4 @@
 
-
 # # Configure CloudTrail to log s3 events
 # resource "aws_cloudtrail" "s3_event_log" {
 #   name                          = "my-cloudtrail"

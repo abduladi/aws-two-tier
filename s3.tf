@@ -105,11 +105,7 @@ data "aws_iam_policy_document" "s3_server_access_logs_policy" {
       "${aws_s3_bucket.log_bucket.id}/log*"
     ]
 
-    condition {
-      test     = "ArnLike"
-      variable = "aws:SourceArn"
-      values   = ["${aws_s3_bucket.data_bucket.id}"]
-    }
+    
 
     
   }
