@@ -55,7 +55,7 @@ resource "aws_s3_bucket_acl" "data_bucket_acl" {
 
 
 
-# Create logging bucket
+# Create server access logging bucket
 resource "aws_s3_bucket" "log_bucket" {
   bucket = "n26-logs-${random_id.bucket_id.hex}"
 
@@ -71,7 +71,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "log_bucket_encryp
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm     = "aws:kms"
+      sse_algorithm     = "AES256"
     }
   }
 }
