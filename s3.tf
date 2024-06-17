@@ -96,7 +96,7 @@ data "aws_iam_policy_document" "s3_server_access_logs_policy" {
     ]
 
     resources = [
-      "arn:aws:s3:::${aws_s3_bucket.log_bucket.bucket}/log*"
+      "${aws_s3_bucket.log_bucket.arn}/log*"
     ]
 
     
@@ -111,7 +111,7 @@ data "aws_iam_policy_document" "s3_server_access_logs_policy" {
 
 # New S3 bucket for CloudTrail logs
 resource "aws_s3_bucket" "cloudtrail_bucket" {
-  bucket = "n26-logs-${random_id.bucket_id.hex}"
+  bucket = "n26-cloudtrail-${random_id.bucket_id.hex}"
 
   tags = {
     Name = "Logging Bucket"

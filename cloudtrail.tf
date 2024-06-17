@@ -3,8 +3,8 @@
 resource "aws_cloudtrail" "s3_event_log" {
   name                          = "s3-event-log"
   s3_bucket_name                = aws_s3_bucket.cloudtrail_bucket.id
-  include_global_service_events = true
-  is_multi_region_trail         = true
+  include_global_service_events = false
+  
 
   event_selector {
     read_write_type           = "All"
@@ -16,3 +16,57 @@ resource "aws_cloudtrail" "s3_event_log" {
     }
   }
 }
+
+
+
+
+
+
+data "aws_iam_policy_document" "cloudtrail_s3_policy_document" {
+  statement {
+    sid    = "AWSCloudTrailAclCheck"
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudtrail.amazonaws.com"]
+    }
+
+    actions = ["s3:GetBucketAcl"]
+
+    resources = [aws_s3_bucket.cloudtrail_bucket.arn]
+  }
+
+  statement {
+    sid    = "AWSCloudTrailWrite"
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudtrail.amazonaws.com"]
+    }
+
+    actions = ["s3:PutObject"]
+
+    resources = [
+      "${aws_s3_bucket.cloudtrail_bucket.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"
+    ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "s3:x-amz-acl"
+      values   = ["bucket-owner-full-control"]
+    }
+  }
+}
+
+
+resource "aws_s3_bucket_policy" "log_bucket_policy" {
+  bucket = aws_s3_bucket.cloudtrail_bucket.id
+
+  policy = data.aws_iam_policy_document.cloudtrail_s3_policy_document.json
+}
+
+
+
+data "aws_caller_identity" "current" {}
