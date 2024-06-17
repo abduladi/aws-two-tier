@@ -2,7 +2,7 @@
 # Configure CloudTrail to log s3 events
 resource "aws_cloudtrail" "s3_event_log" {
   name                          = "s3-event-log"
-  s3_bucket_name                = aws_s3_bucket.cloudtrail_bucket.id
+  s3_bucket_name                = aws_s3_bucket.cloudtrail_bucket.bucket
   include_global_service_events = false
   
 
@@ -37,7 +37,7 @@ data "aws_iam_policy_document" "cloudtrail_s3_policy_document" {
     resources = [
       "arn:aws:s3:::${aws_s3_bucket.cloudtrail_bucket.bucket}"
     ]
-    
+
   }
 
   statement {
