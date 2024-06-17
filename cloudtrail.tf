@@ -12,7 +12,7 @@ resource "aws_cloudtrail" "s3_event_log" {
 
     data_resource {
       type   = "AWS::S3::Object"
-      values = [aws_s3_bucket.data_bucket.arn]
+      values = ["arn:aws:s3:::${aws_s3_bucket.data_bucket.bucket}/"]
     }
   }
 }
