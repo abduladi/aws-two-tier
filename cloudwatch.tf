@@ -1,3 +1,8 @@
+# cloudwatch log group to send cloudtrail logs
+resource "aws_cloudwatch_log_group" "s3_cloudtrail" {
+  name = "s3-cloudtrail"
+}
+
 resource "aws_sns_topic" "alerts_topic" {
   name = "s3-security-alerts"
 }
@@ -6,7 +11,7 @@ resource "aws_sns_topic" "alerts_topic" {
 # Unauthorized access attempts
 resource "aws_cloudwatch_log_metric_filter" "unauthorized_access_filter" {
   name           = "UnauthorizedAccess"
-  log_group_name = "/aws/cloudtrail/logs"
+  log_group_name = aws_cloudwatch_log_group.s3_cloudtrail.name
   pattern        = "{ ($.eventName = ConsoleLogin) && ($.errorMessage = \"Failed authentication\") }"
 
   metric_transformation {
@@ -34,7 +39,7 @@ resource "aws_cloudwatch_metric_alarm" "unauthorized_access_alarm" {
 # Bucket policy changes
 resource "aws_cloudwatch_log_metric_filter" "bucket_policy_change_filter" {
   name           = "BucketPolicyChange"
-  log_group_name = "/aws/cloudtrail/logs"
+  log_group_name = aws_cloudwatch_log_group.s3_cloudtrail.name
   pattern        = "{ ($.eventName = PutBucketPolicy) || ($.eventName = DeleteBucketPolicy) || ($.eventName = PutBucketAcl) }"
 
   metric_transformation {
@@ -62,7 +67,7 @@ resource "aws_cloudwatch_metric_alarm" "bucket_policy_change_alarm" {
 # Bucket deletion
 resource "aws_cloudwatch_log_metric_filter" "bucket_deletion_filter" {
   name           = "BucketDeletion"
-  log_group_name = "/aws/cloudtrail/logs"
+  log_group_name = aws_cloudwatch_log_group.s3_cloudtrail.name
   pattern        = "{ ($.eventName = DeleteBucket) }"
 
   metric_transformation {

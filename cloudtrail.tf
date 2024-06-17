@@ -5,6 +5,8 @@ resource "aws_cloudtrail" "s3_event_log" {
   s3_bucket_name                = aws_s3_bucket.cloudtrail_bucket.bucket
   include_global_service_events = false
   
+  # send logs to cloudwatch log group so we can configure alerts and alarms for event types
+  cloud_watch_logs_group_arn = "${aws_cloudwatch_log_group.s3_cloudtrail.arn}:*"
 
   event_selector {
     read_write_type           = "All"
