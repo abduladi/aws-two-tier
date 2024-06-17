@@ -34,7 +34,10 @@ data "aws_iam_policy_document" "cloudtrail_s3_policy_document" {
 
     actions = ["s3:GetBucketAcl"]
 
-    resources = [aws_s3_bucket.cloudtrail_bucket.arn]
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.cloudtrail_bucket.bucket}"
+    ]
+    
   }
 
   statement {
@@ -49,7 +52,7 @@ data "aws_iam_policy_document" "cloudtrail_s3_policy_document" {
     actions = ["s3:PutObject"]
 
     resources = [
-      "${aws_s3_bucket.cloudtrail_bucket.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"
+      "arn:aws:s3:::${aws_s3_bucket.cloudtrail_bucket.bucket}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"
     ]
 
     condition {
