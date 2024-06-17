@@ -61,7 +61,7 @@ data "aws_iam_policy_document" "cloudtrail_s3_policy_document" {
 }
 
 
-resource "aws_s3_bucket_policy" "log_bucket_policy" {
+resource "aws_s3_bucket_policy" "cloudtrail_bucket_policy" {
   bucket = aws_s3_bucket.cloudtrail_bucket.id
 
   policy = data.aws_iam_policy_document.cloudtrail_s3_policy_document.json
