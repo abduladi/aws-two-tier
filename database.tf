@@ -24,7 +24,7 @@ resource "aws_db_subnet_group" "database_subnet_group" {
 # }
 
 
-
+# Serveless V2 resource
 # resource "aws_rds_cluster" "app_db" {
 #   cluster_identifier = "app-db-instance"
 #   engine             = "aurora-postgresql"
@@ -63,6 +63,61 @@ resource "aws_db_subnet_group" "database_subnet_group" {
 
 
 
+# parameter group for serveless v2 option above
+
+# resource "aws_rds_cluster_parameter_group" "app-db-pg" {
+#   name        = "app-db-pg"
+#   family      = "aurora-postgresql15"
+#   description = "RDS default cluster parameter group"
+
+#   # Enforcing ssl connection to cluster
+#   parameter {
+#     name  = "rds.force_ssl"
+#     value = "1"
+#   }
+
+#   # logging parameters
+
+#   parameter {
+#     name  = "log_connections"
+#     value = "1"
+#   }
+
+#   parameter {
+#     name  = "log_disconnections"
+#     value = "1"
+#   }
+
+#   parameter {
+#     name  = "log_lock_waits"
+#     value = "1"
+#   }
+
+#   parameter {
+#     name  = "log_min_duration_statement"
+#     value = "0"
+#   }
+
+#   parameter {
+#     name  = "log_min_messages"
+#     value = "info"
+#   }
+
+#   parameter {
+#     name  = "log_temp_files"
+#     value = "0"
+#   }
+
+#   parameter {
+#     name  = "log_statement"
+#     value = "all"
+#   }
+
+
+# }
+
+
+
 resource "aws_rds_cluster" "app_db" {
   cluster_identifier          = "app-db-instance"
   engine                      = "aurora-postgresql"
@@ -79,10 +134,6 @@ resource "aws_rds_cluster" "app_db" {
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.app-db-pg.name
   skip_final_snapshot         = true
   backup_retention_period     = 7
-  
-  # Export logs to CloudWatch
-  enabled_cloudwatch_logs_exports = ["postgresql", "audit", "error", "general", "slowquery"]
-  
   scaling_configuration {
     auto_pause               = false
     max_capacity             = 2
