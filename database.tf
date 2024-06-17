@@ -127,7 +127,7 @@ resource "aws_rds_cluster" "app_db" {
   master_username             = "dbuser"
   
   # master_user_secret_kms_key_id = aws_kms_key.dbkms.key_id
-  manage_master_user_password = true
+  master_password             = "dummydbpass2972797"
   storage_encrypted           = true
   db_subnet_group_name        = aws_db_subnet_group.database_subnet_group.id
   vpc_security_group_ids      = [aws_security_group.database-security-group.id]
