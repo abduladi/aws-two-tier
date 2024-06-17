@@ -12,7 +12,7 @@ resource "aws_cloudtrail" "s3_event_log" {
 
     data_resource {
       type   = "AWS::S3::Object"
-      values = ["arn:aws:s3:::${aws_s3_bucket.data_bucket.bucket}/"]
+      values = ["${aws_s3_bucket.data_bucket.arn}/"]
     }
   }
 }
@@ -35,7 +35,7 @@ data "aws_iam_policy_document" "cloudtrail_s3_policy_document" {
     actions = ["s3:GetBucketAcl"]
 
     resources = [
-      "arn:aws:s3:::${aws_s3_bucket.cloudtrail_bucket.bucket}"
+      aws_s3_bucket.cloudtrail_bucket.arn
     ]
 
   }
@@ -52,7 +52,7 @@ data "aws_iam_policy_document" "cloudtrail_s3_policy_document" {
     actions = ["s3:PutObject"]
 
     resources = [
-      "arn:aws:s3:::${aws_s3_bucket.cloudtrail_bucket.bucket}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"
+      "${aws_s3_bucket.cloudtrail_bucket.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"
     ]
 
     condition {
