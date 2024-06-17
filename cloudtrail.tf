@@ -7,7 +7,8 @@ resource "aws_cloudtrail" "s3_event_log" {
   
   # send logs to cloudwatch log group so we can configure alerts and alarms for event types
   cloud_watch_logs_group_arn = "${aws_cloudwatch_log_group.s3_cloudtrail.arn}:*"
-
+  cloud_watch_logs_role_arn  = aws_iam_role.cloudtrail_role.arn
+ 
   event_selector {
     read_write_type           = "All"
     include_management_events = true
@@ -64,6 +65,33 @@ data "aws_iam_policy_document" "cloudtrail_s3_policy_document" {
     }
   }
 }
+
+
+
+
+# policy to be assigned to iam role that cloudtrail will have to assume 
+data "aws_iam_policy_document" "cloudtrail_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type = "Service"
+      identifiers = ["cloudtrail.amazonaws.com"]
+    }
+    effect = "Allow"
+  }
+
+  version = "2012-10-17"
+}
+
+
+
+# IAM role to be assumed by cloudtrail
+resource "aws_iam_role" "cloudtrail_role" {
+  name               = "cloudtrail-role"
+  path               = "/system/"
+  assume_role_policy = data.aws_iam_policy_document.cloudtrail_assume_role_policy.json
+}
+
 
 
 resource "aws_s3_bucket_policy" "cloudtrail_bucket_policy" {
