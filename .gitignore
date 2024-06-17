@@ -35,4 +35,4 @@ terraform.rc
 
 
 # temporary ignore for intensive resources
-database.tf
+# database.tf
