@@ -59,7 +59,7 @@ resource "aws_autoscaling_group" "n26_asg" {
 
   launch_template {
     id      = aws_launch_template.n26_launch_template.id
-    version = ws_launch_template.n26_launch_template.latest_version
+    version = aws_launch_template.n26_launch_template.latest_version
   }
 
   tag {
