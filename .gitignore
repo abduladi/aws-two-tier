@@ -36,3 +36,5 @@ terraform.rc
 
 # temporary ignore for intensive resources
 # database.tf
+cert.pem
+key.pem
