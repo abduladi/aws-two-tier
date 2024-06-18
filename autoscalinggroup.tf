@@ -66,7 +66,7 @@ resource "aws_autoscaling_group" "n26_asg" {
 
 # Target group
 resource "aws_lb_target_group" "n26_alb_target_group" {
-  name       = "n26_alb_target_group"
+  name       = "n26-alb-target-group"
   depends_on = [aws_vpc.vpc]
   port       = 443
   protocol   = "HTTPS"
