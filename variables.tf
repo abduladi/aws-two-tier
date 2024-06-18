@@ -1,5 +1,5 @@
 # Variables defined for the architecture 
-
+# update email as required 
 variable "alerts-email" {
   default       = "abdulwahabadi@gmail.com"
   description   = "Email address to deliver alerts"
