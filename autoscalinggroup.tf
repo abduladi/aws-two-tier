@@ -55,6 +55,7 @@
 #   target_group_arns    = ["${aws_lb_target_group.n26_alb_target_group.arn}"]
 #   health_check_type    = "EC2"
 #   vpc_zone_identifier  = ["${aws_subnet.private-subnet-1.id}", "${aws_subnet.private-subnet-2.id}"]
+#   wait_for_capacity_timeout = 20
 
 
 #   launch_template {
@@ -70,21 +71,21 @@
 
 # }
 
-# # Target group
-# resource "aws_lb_target_group" "n26_alb_target_group" {
-#   name       = "n26-alb-target-group"
-#   depends_on = [aws_vpc.vpc]
-#   port       = 443
-#   protocol   = "HTTPS"
-#   vpc_id     = aws_vpc.vpc.id
-#   health_check {
-#     interval            = 70
-#     path                = "/index.html"
-#     port                = 443
-#     healthy_threshold   = 2
-#     unhealthy_threshold = 2
-#     timeout             = 60
-#     protocol            = "HTTPS"
-#     matcher             = "200,202"
-#   }
-# }
+# Target group
+resource "aws_lb_target_group" "n26_alb_target_group" {
+  name       = "n26-alb-target-group"
+  depends_on = [aws_vpc.vpc]
+  port       = 443
+  protocol   = "HTTPS"
+  vpc_id     = aws_vpc.vpc.id
+  health_check {
+    interval            = 70
+    path                = "/index.html"
+    port                = 443
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 60
+    protocol            = "HTTPS"
+    matcher             = "200,202"
+  }
+}
