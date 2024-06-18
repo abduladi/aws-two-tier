@@ -75,13 +75,13 @@ resource "aws_autoscaling_group" "n26_asg" {
 resource "aws_lb_target_group" "n26_alb_target_group" {
   name       = "n26-alb-target-group"
   depends_on = [aws_vpc.vpc]
-  port       = 443
-  protocol   = "HTTPS"
+  port       = 80
+  protocol   = "HTTP"
   vpc_id     = aws_vpc.vpc.id
   health_check {
     interval            = 70
     path                = "/index.php"
-    port                = 443
+    port                = 80
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 60
