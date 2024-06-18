@@ -6,7 +6,11 @@ variable "alerts-email" {
   type          = string
 }
 
-
+variable "server-cert" {
+  default       = "arn:aws:iam::158352560240:server-certificate/my-self-signed-cert"
+  description   = "arn for self signed certificate for ALB"
+  type          = string
+}
 
 variable "region" {
   default       = "us-east-1"
