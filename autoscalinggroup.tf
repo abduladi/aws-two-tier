@@ -54,14 +54,20 @@ resource "aws_autoscaling_group" "n26_asg" {
   depends_on           = [aws_lb.n26_alb]
   target_group_arns    = ["${aws_lb_target_group.n26_alb_target_group.arn}"]
   health_check_type    = "EC2"
-  launch_configuration = aws_launch_configuration.n26_launch_config.name
   vpc_zone_identifier  = ["${aws_subnet.private-subnet-1.id}", "${aws_subnet.private-subnet-2.id}"]
+
+
+  launch_template {
+    id      = aws_launch_template.n26_launch_template.id
+    version = "$Latest"
+  }
 
   tag {
     key                 = "Name"
     value               = "n26_asg"
     propagate_at_launch = true
   }
+
 }
 
 # Target group
