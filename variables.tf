@@ -1,5 +1,13 @@
 # Variables defined for the architecture 
 
+variable "alerts-email" {
+  default       = "abdulwahabadi@gmail.com"
+  description   = "Email address to deliver alerts"
+  type          = string
+}
+
+
+
 variable "region" {
   default       = "us-east-1"
   description   = "AWS Region"

@@ -96,7 +96,7 @@ resource "aws_cloudwatch_metric_alarm" "bucket_deletion_alarm" {
 resource "aws_sns_topic_subscription" "email_subscription" {
   topic_arn = aws_sns_topic.alerts_topic.arn
   protocol  = "email"
-  endpoint  = "gucedisore@jollyfree.com"
+  endpoint  = "${var.alerts-email}"
   
 }
 
