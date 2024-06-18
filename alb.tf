@@ -1,6 +1,6 @@
 # Application LB
 resource "aws_lb" "n26_alb" {
-  name               = "n26_alb"
+  name               = "n26-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb-security-group.id]

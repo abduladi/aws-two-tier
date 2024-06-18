@@ -67,10 +67,10 @@ resource "aws_autoscaling_group" "n26_asg" {
 # Target group
 resource "aws_lb_target_group" "n26_alb_target_group" {
   name       = "n26_alb_target_group"
-  depends_on = [aws_vpc.main]
+  depends_on = [aws_vpc.vpc]
   port       = 443
   protocol   = "HTTPS"
-  vpc_id     = aws_vpc.main.id
+  vpc_id     = aws_vpc.vpc.id
   health_check {
     interval            = 70
     path                = "/index.html"
