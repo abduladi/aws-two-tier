@@ -55,7 +55,7 @@ resource "aws_autoscaling_group" "n26_asg" {
   target_group_arns    = ["${aws_lb_target_group.n26_alb_target_group.arn}"]
   health_check_type    = "EC2"
   vpc_zone_identifier  = ["${aws_subnet.private-subnet-1.id}", "${aws_subnet.private-subnet-2.id}"]
-  wait_for_capacity_timeout = 20
+  wait_for_capacity_timeout = "20m"
 
 
   launch_template {
