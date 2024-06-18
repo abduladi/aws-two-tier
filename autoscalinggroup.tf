@@ -53,7 +53,7 @@ resource "aws_autoscaling_group" "n26_asg" {
   force_delete         = true
   depends_on           = [aws_lb.n26_alb]
   target_group_arns    = ["${aws_lb_target_group.n26_alb_target_group.arn}"]
-  health_check_type    = "EC2"
+  health_check_type    = "ELB"
   vpc_zone_identifier  = ["${aws_subnet.private-subnet-1.id}", "${aws_subnet.private-subnet-2.id}"]
   wait_for_capacity_timeout = "20m"
 
@@ -78,14 +78,14 @@ resource "aws_lb_target_group" "n26_alb_target_group" {
   port       = 80
   protocol   = "HTTP"
   vpc_id     = aws_vpc.vpc.id
-  # health_check {
-  #   interval            = 70
-  #   path                = "/index.html"
-  #   port                = 80
-  #   healthy_threshold   = 2
-  #   unhealthy_threshold = 10
-  #   timeout             = 60
-  #   protocol            = "HTTP"
-  #   matcher             = "200,202"
-  # }
+  health_check {
+    interval            = 70
+    path                = "/index.html"
+    port                = 80
+    healthy_threshold   = 2
+    unhealthy_threshold = 10
+    timeout             = 60
+    protocol            = "HTTP"
+    matcher             = "200,202"
+  }
 }
