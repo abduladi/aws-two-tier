@@ -83,7 +83,7 @@ resource "aws_lb_target_group" "n26_alb_target_group" {
   #   path                = "/index.html"
   #   port                = 80
   #   healthy_threshold   = 2
-  #   unhealthy_threshold = 2
+  #   unhealthy_threshold = 10
   #   timeout             = 60
   #   protocol            = "HTTP"
   #   matcher             = "200,202"
