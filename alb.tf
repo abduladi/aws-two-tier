@@ -12,40 +12,40 @@ resource "aws_lb" "n26_alb" {
   }
 }
 
-# # ALB HTTPS Listener 
+# ALB HTTPS Listener 
 
-# resource "aws_lb_listener" "https" {
-#   load_balancer_arn = aws_lb.n26_alb.arn
-#   port              = "443"
-#   protocol          = "HTTPS"
+resource "aws_lb_listener" "https" {
+  load_balancer_arn = aws_lb.n26_alb.arn
+  port              = "443"
+  protocol          = "HTTPS"
   
-#   ssl_policy        = "ELBSecurityPolicy-2016-08"
-#   certificate_arn   = var.server-cert
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = var.server-cert
 
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.n26_alb_target_group.arn
-#   }
-# }
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.n26_alb_target_group.arn
+  }
+}
 
 
-# # ALB HTTPS Listener 
+# ALB HTTPS Listener 
 
-# resource "aws_lb_listener" "http" {
-#   load_balancer_arn = aws_lb.n26_alb.arn
-#   port              = "80"
-#   protocol          = "HTTP"
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.n26_alb.arn
+  port              = "80"
+  protocol          = "HTTP"
 
-#   default_action {
-#     type = "redirect"
+  default_action {
+    type = "redirect"
 
-#     redirect {
-#       port        = "443"
-#       protocol    = "HTTPS"
-#       status_code = "HTTP_301"
-#     }
-#   }
-# }
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
 
 
 # Create WAF with some rules for the ALB
