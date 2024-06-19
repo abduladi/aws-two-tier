@@ -26,7 +26,7 @@ resource "aws_acm_certificate" "cert" {
 }
 
 
-resource "aws_lb_listener_certificate" "lb_cert" {
-  listener_arn    = aws_lb_listener.https.arn
-  certificate_arn = aws_acm_certificate.cert.arn
-}
+# resource "aws_lb_listener_certificate" "lb_cert" {
+#   listener_arn    = aws_lb_listener.https.arn
+#   certificate_arn = aws_acm_certificate.cert.arn
+# }
