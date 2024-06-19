@@ -3,7 +3,7 @@ resource "aws_launch_template" "n26_launch_template" {
   image_id      = "ami-0eaf7c3456e7b5b68"
   instance_type = "t2.micro"
 
-  security_groups= [aws_security_group.webserver-security-group.id]
+  vpc_security_group_ids = [aws_security_group.webserver-security-group.id]
 
   user_data = filebase64("${path.module}/bootstrap_webserver.sh")
 
