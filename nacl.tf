@@ -134,6 +134,6 @@ resource "aws_network_acl" "public_nacl" {
 
 
   tags = {
-    Name = "App Subnet NACL"
+    Name = "Public Subnet NACL"
   }
 }
