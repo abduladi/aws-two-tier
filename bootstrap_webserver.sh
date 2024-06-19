@@ -1,7 +1,7 @@
-# #!/bin/bash
+#!/bin/bash
 
-yum update -y
-yum install -y httpd
-systemctl start httpd
-systemctl enable httpd
-echo "<center><h1>Welcome to Server: $(hostname -i)</h1><br><br></center>" > /var/www/html/index.html
+sudo yum update -y
+sudo yum install -y httpd
+sudo systemctl start httpd
+sudo systemctl enable httpd
+sudo echo "<center><h1>Welcome to Server: $(hostname -i)</h1><br><br></center>" > /var/www/html/index.html

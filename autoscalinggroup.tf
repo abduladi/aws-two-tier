@@ -3,17 +3,7 @@ resource "aws_launch_template" "n26_launch_template" {
   image_id      = "ami-0eaf7c3456e7b5b68"
   instance_type = "t2.micro"
 
-  vpc_security_group_ids = [aws_security_group.webserver-security-group.id]
-
-  block_device_mappings {
-    device_name = "/dev/sda1"
-    
-    ebs {
-      volume_type = "gp3"
-      volume_size = 10
-      encrypted   = true
-    }
-  }
+  security_groups= [aws_security_group.webserver-security-group.id]
 
   user_data = filebase64("${path.module}/bootstrap_webserver.sh")
 
@@ -22,27 +12,6 @@ resource "aws_launch_template" "n26_launch_template" {
   }
 }
 
-
-
-
-# resource "aws_launch_configuration" "n26_launch_config" {
-#   name_prefix     = "n26-launch-config"
-# # ubuntu's image id
-#   image_id        = ami-04b70fa74e45c3917
-#   instance_type   = "t2.micro"
-#   security_groups = ["${aws_security_group.webserver-security-group.id}"]
-
-#   root_block_device {
-#     volume_type = "gp3"
-#     volume_size = 10
-#     encrypted   = true
-#   }
-
-#   lifecycle {
-#     create_before_destroy = true
-#   }
-#   user_data = filebase64("${path.module}/bootstrap_webserver.sh")
-# }
 
 
 
@@ -73,26 +42,6 @@ resource "aws_autoscaling_group" "n26_asg" {
 
 }
 
-
-# ASG using launch configuration
-# resource "aws_autoscaling_group" "n26_asg" {
-#   name                 = "n26_asg"
-#   desired_capacity     = 2
-#   max_size             = 4
-#   min_size             = 1
-#   force_delete         = true
-#   depends_on           = [aws_lb.n26_alb]
-#   target_group_arns    = ["${aws_lb_target_group.n26_alb_target_group.arn}"]
-#   health_check_type    = "EC2"
-#   launch_configuration = aws_launch_configuration.n26_launch_config.name
-#   vpc_zone_identifier  = ["${aws_subnet.private-subnet-1.id}", "${aws_subnet.private-subnet-2.id}"]
-
-#   tag {
-#     key                 = "Name"
-#     value               = "n26_asg"
-#     propagate_at_launch = true
-#   }
-# }
 
 # Target group
 resource "aws_lb_target_group" "n26_alb_target_group" {
