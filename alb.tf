@@ -32,7 +32,7 @@ resource "aws_lb_listener" "https" {
 # ALB HTTPS Listener 
 
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.http.arn
+  load_balancer_arn = aws_lb.n26_alb.arn
   port              = "80"
   protocol          = "HTTP"
 
