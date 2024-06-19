@@ -10,6 +10,10 @@ resource "aws_launch_template" "n26_launch_template" {
   lifecycle {
     create_before_destroy = true
   }
+
+  tags = {
+      Name = "n26 autoscaled"
+    }
 }
 
 
@@ -41,6 +45,60 @@ resource "aws_autoscaling_group" "n26_asg" {
   }
 
 }
+
+# scaling policy
+resource "aws_autoscaling_policy" "scale_up" {
+  name                   = "scale-up"
+  autoscaling_group_name = aws_autoscaling_group.n26_asg.name
+  adjustment_type        = "ChangeInCapacity"
+  scaling_adjustment     = 1
+  cooldown               = 120
+}
+
+resource "aws_cloudwatch_metric_alarm" "scale_up" {
+  alarm_description   = "Monitors CPU utilization for N26 ASG"
+  alarm_actions       = [aws_autoscaling_policy.scale_up.arn]
+  alarm_name          = "N26_scale_up"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  namespace           = "AWS/EC2"
+  metric_name         = "CPUUtilization"
+  threshold           = "70"
+  evaluation_periods  = "2"
+  period              = "120"
+  statistic           = "Average"
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.n26_asg.name
+  }
+}
+
+
+# scale down policy
+resource "aws_autoscaling_policy" "scale_down" {
+  name                   = "scale-down"
+  autoscaling_group_name = aws_autoscaling_group.n26_asg.name
+  adjustment_type        = "ChangeInCapacity"
+  scaling_adjustment     = -1
+  cooldown               = 120
+}
+
+resource "aws_cloudwatch_metric_alarm" "scale_down" {
+  alarm_description   = "Monitors CPU utilization for N26 ASG"
+  alarm_actions       = [aws_autoscaling_policy.scale_down.arn]
+  alarm_name          = "N26_scale_down"
+  comparison_operator = "LessThanOrEqualToThreshold"
+  namespace           = "AWS/EC2"
+  metric_name         = "CPUUtilization"
+  threshold           = "20"
+  evaluation_periods  = "2"
+  period              = "120"
+  statistic           = "Average"
+
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.n26_asg.name
+  }
+}
+
 
 
 # Target group

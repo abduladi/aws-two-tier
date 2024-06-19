@@ -24,9 +24,3 @@ resource "aws_acm_certificate" "cert" {
   private_key      = tls_private_key.key.private_key_pem
   certificate_body = tls_self_signed_cert.cert.cert_pem
 }
-
-
-# resource "aws_lb_listener_certificate" "lb_cert" {
-#   listener_arn    = aws_lb_listener.https.arn
-#   certificate_arn = aws_acm_certificate.cert.arn
-# }

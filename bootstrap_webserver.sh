@@ -5,3 +5,6 @@ sudo yum install -y httpd
 sudo systemctl start httpd
 sudo systemctl enable httpd
 sudo echo "<center><h1>Welcome to Server: $(hostname -i)</h1><br><br></center>" > /var/www/html/index.html
+
+sudo yum install -y awslogs
+sudo service awslogs start
