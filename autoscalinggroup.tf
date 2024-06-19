@@ -74,18 +74,17 @@ resource "aws_autoscaling_group" "n26_asg" {
 # Target group
 resource "aws_lb_target_group" "n26_alb_target_group" {
   name       = "n26-alb-target-group"
-  depends_on = [aws_vpc.vpc]
-  port       = 443
-  protocol   = "HTTPS"
+  port       = 80
+  protocol   = "HTTP"
   vpc_id     = aws_vpc.vpc.id
   health_check {
     interval            = 70
-    path                = "/index.html"
-    port                = 443
+    path                = "/"
+    port                = 80
     healthy_threshold   = 2
     unhealthy_threshold = 4
     timeout             = 60
-    protocol            = "HTTPS"
+    protocol            = "HTTP"
     matcher             = "200,202"
   }
 }

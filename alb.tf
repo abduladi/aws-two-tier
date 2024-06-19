@@ -12,7 +12,7 @@ resource "aws_lb" "n26_alb" {
   }
 }
 
-# ALB Listener 
+# ALB HTTPS Listener 
 
 resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.n26_alb.arn
@@ -27,6 +27,26 @@ resource "aws_lb_listener" "https" {
     target_group_arn = aws_lb_target_group.n26_alb_target_group.arn
   }
 }
+
+
+# ALB HTTPS Listener 
+
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.http.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
+
 
 # Create WAF with some rules for the ALB
 resource "aws_wafv2_web_acl" "alb_waf_acl" {
