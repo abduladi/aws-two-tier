@@ -48,41 +48,41 @@ resource "aws_lb_listener" "http" {
 }
 
 
-# Create WAF with some rules for the ALB
-resource "aws_wafv2_web_acl" "alb_waf_acl" {
-  name        = "alb-waf-acl"
-  scope       = "REGIONAL"
-  description = "WAF ACL for application load balancer"
-  default_action {
-    allow {}
-  }
-  visibility_config {
-    sampled_requests_enabled = true
-    cloudwatch_metrics_enabled = true
-    metric_name = "N26ALBWebACL"
-  }
-  rule {
-    name     = "rate-limit-rule"
-    priority = 1
-    action {
-      block {}
-    }
-    statement {
-      rate_based_statement {
-        limit              = 1000
-        aggregate_key_type = "IP"
-      }
-    }
-    visibility_config {
-      sampled_requests_enabled = true
-      cloudwatch_metrics_enabled = true
-      metric_name = "rateLimitRule"
-    }
-  }
-}
+# # Create WAF with some rules for the ALB
+# resource "aws_wafv2_web_acl" "alb_waf_acl" {
+#   name        = "alb-waf-acl"
+#   scope       = "REGIONAL"
+#   description = "WAF ACL for application load balancer"
+#   default_action {
+#     allow {}
+#   }
+#   visibility_config {
+#     sampled_requests_enabled = true
+#     cloudwatch_metrics_enabled = true
+#     metric_name = "N26ALBWebACL"
+#   }
+#   rule {
+#     name     = "rate-limit-rule"
+#     priority = 1
+#     action {
+#       block {}
+#     }
+#     statement {
+#       rate_based_statement {
+#         limit              = 1000
+#         aggregate_key_type = "IP"
+#       }
+#     }
+#     visibility_config {
+#       sampled_requests_enabled = true
+#       cloudwatch_metrics_enabled = true
+#       metric_name = "rateLimitRule"
+#     }
+#   }
+# }
 
-# associate waf with ALB
-resource "aws_wafv2_web_acl_association" "alb_waf_acl_association" {
-  resource_arn = aws_lb.n26_alb.arn
-  web_acl_arn  = aws_wafv2_web_acl.alb_waf_acl.arn
-}
+# # associate waf with ALB
+# resource "aws_wafv2_web_acl_association" "alb_waf_acl_association" {
+#   resource_arn = aws_lb.n26_alb.arn
+#   web_acl_arn  = aws_wafv2_web_acl.alb_waf_acl.arn
+# }
