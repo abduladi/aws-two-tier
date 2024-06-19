@@ -4,7 +4,7 @@
 resource "aws_network_acl" "db_nacl" {
   vpc_id = aws_vpc.vpc.id
 
-  subnet_ids = [aws_subnet.private-subnet-4, aws_subnet.private-subnet-3]
+  subnet_ids = [aws_subnet.private-subnet-4.id, aws_subnet.private-subnet-3.id]
 
   ingress {
     rule_no    = 100
@@ -45,7 +45,7 @@ resource "aws_network_acl" "db_nacl" {
 resource "aws_network_acl" "app_nacl" {
   vpc_id = aws_vpc.vpc.id
 
-  subnet_ids = [aws_subnet.private-subnet-1, aws_subnet.private-subnet-2]
+  subnet_ids = [aws_subnet.private-subnet-1.id, aws_subnet.private-subnet-2.id]
 
   ingress {
     rule_no    = 100
@@ -102,7 +102,7 @@ resource "aws_network_acl" "app_nacl" {
 resource "aws_network_acl" "public_nacl" {
   vpc_id = aws_vpc.vpc.id
 
-  subnet_ids = [aws_subnet.public-subnet-1, aws_subnet.public-subnet-2]
+  subnet_ids = [aws_subnet.public-subnet-1.id, aws_subnet.public-subnet-2.id]
 
   ingress {
     rule_no    = 100
