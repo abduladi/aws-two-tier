@@ -5,6 +5,10 @@ resource "aws_launch_template" "n26_launch_template" {
 
   vpc_security_group_ids = [aws_security_group.webserver-security-group.id]
 
+  iam_instance_profile {
+    name = aws_iam_instance_profile.ec2_instance_profile.name
+  }
+
   user_data = filebase64("${path.module}/bootstrap_webserver.sh")
 
   lifecycle {
