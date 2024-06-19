@@ -1,6 +1,6 @@
 resource "aws_launch_template" "n26_launch_template" {
   name_prefix   = "n26-launch-template"
-  image_id      = data.aws_ami.ubuntu.id
+  image_id      = "ami-0eaf7c3456e7b5b68"
   instance_type = "t2.micro"
 
   vpc_security_group_ids = [aws_security_group.webserver-security-group.id]
@@ -29,7 +29,7 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-20240423"]
+    values = ["ami-04b70fa74e45c3917"]
   }
 
   filter {
@@ -42,7 +42,8 @@ data "aws_ami" "ubuntu" {
 
 # resource "aws_launch_configuration" "n26_launch_config" {
 #   name_prefix     = "n26-launch-config"
-#   image_id        = data.aws_ami.ubuntu.id
+# # ubuntu's image id
+#   image_id        = ami-04b70fa74e45c3917
 #   instance_type   = "t2.micro"
 #   security_groups = ["${aws_security_group.webserver-security-group.id}"]
 
