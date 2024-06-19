@@ -24,21 +24,6 @@ resource "aws_launch_template" "n26_launch_template" {
 
 
 
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ami-04b70fa74e45c3917"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-}
-
 
 # resource "aws_launch_configuration" "n26_launch_config" {
 #   name_prefix     = "n26-launch-config"
