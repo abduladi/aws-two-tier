@@ -4,7 +4,6 @@ resource "tls_private_key" "key" {
 }
 
 resource "tls_self_signed_cert" "cert" {
-  key_algorithm   = "RSA"
   private_key_pem = tls_private_key.key.private_key_pem
 
   subject {
@@ -27,7 +26,7 @@ resource "aws_acm_certificate" "cert" {
 }
 
 
-resource "aws_lb_listener_certificate" "example" {
+resource "aws_lb_listener_certificate" "lb_cert" {
   listener_arn    = aws_lb_listener.https.arn
   certificate_arn = aws_acm_certificate.cert.arn
 }
