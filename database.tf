@@ -44,7 +44,7 @@ resource "aws_rds_cluster" "app_db" {
 
 
 # Export logs to cloudwatch
-  enabled_cloudwatch_logs_exports = ["postgresql", "audit", "error", "general", "slowquery"]
+  enabled_cloudwatch_logs_exports = ["postgresql"]
 
   serverlessv2_scaling_configuration {
     max_capacity = 1.0
