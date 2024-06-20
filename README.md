@@ -1,10 +1,26 @@
 # aws-two-tier
 
-To Deploy the architecture create an aws cli profile called terraform and provide access key ID and secret access key of a user with access keys for CLI created in IAM.
-aws configure --profile terraform
+create access key for an IAM user with permissions to create resources.
+create an aws config profile for this IAM user
+
+ensure you have the latest version of terraform and AWS provider
+
+Create a fork of the repo here
+https://github.com/abduladi/aws-two-tier/
+
+You can decide to run terraform locally or use the pipeline setup for easy management.
+
+To run locally, 
+1. update the provider.tf and remove the "Integration with HCP" block
+2. update the provider block of the provider.tf file to include your aws config profile
+3. run terraform plan and terraform apply to deploy the code from the root directory
 
 
-Security Capabilities
+
+
+
+Security Capabilities Implemented
+=================================
 
 installed ssl in certificate maanager and attached to application load balancer's listener.
 
