@@ -35,20 +35,39 @@ Security Capabilities Implemented
 =================================
 
 1. installed ssl in certificate maanager and attached to application load balancer's listener.
+inspect load balance https listener for certificate attachment. 
 
 2. enforced redirect of HTTP traffic to HTTPS. These two are to support the encryption of data in transit
+get the elb dns name from the loab balancer details section in console
+call the endpoint to validate redirect to https with slef signed certifcate 
 
 3. Implemeted web application firewall on the application load balancer
+from elb detail page, change tab to integrations. Locate WAF integration detect status
 
 4. configured autoscaling policy to automate resiliency
+from autoscaling group detail page, change tab to Automatic Scaling to locate two auto scaling policies
+
 
 5. implemented secruity groups to control traffic for each subnet. This ensures only required traffic needed for smooth running of the architecture are permitted.
 
+from Security groups resource page inspect newly provisioned security groups with inbound and outbound rules defined to enforce only needed traffic permissions
+
 6. Implemented data encryption for all data at rest both in database and s3 buckets.
 
-7. Ensured data stores (DB and s3 are private and not publicly accessible)
+7. Enforced TLS connection for DB data in transit by configuring parameter groups for the cluster and setting the rds.force_ssl flag to 1.
 
-8. ensured high availability by distributing each network subnet tier of the architecture into multiple availablity zones
 
-9. implemented routing to enforce zero path the external entities outside the vpc by ensureing no route to the internet gateway is attached to the subnet
 
+
+
+
+9. Ensured data stores (DB and s3 are private and not publicly accessible)
+DB subnet and NACL do not allow traffic from internet gateway. And s3 has is 
+
+10. ensured high availability by distributing each network subnet tier of the architecture into multiple availablity zones
+
+11. implemented routing to enforce zero path the external entities outside the vpc by ensureing no route to the internet gateway is attached to the subnet
+
+
+
+8. Used KMS with autmated key rotatioin to manage database password.
