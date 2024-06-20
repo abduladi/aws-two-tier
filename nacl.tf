@@ -152,7 +152,7 @@ resource "aws_network_acl" "public_nacl" {
   # allow all outbound traffic
   egress {
     rule_no    = 102
-    protocol   = "-1"
+    protocol   = "tcp"
     action     = "allow"
     cidr_block = "0.0.0.0/0"
     from_port  = 1024
