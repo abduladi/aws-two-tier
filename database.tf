@@ -24,7 +24,7 @@ resource "aws_db_subnet_group" "database_subnet_group" {
 # }
 
 
-Serveless V2 resource
+# Serveless V2 resource
 resource "aws_rds_cluster" "app_db" {
   cluster_identifier = "app-db-instance"
   engine             = "aurora-postgresql"
@@ -63,7 +63,7 @@ resource "aws_rds_cluster_instance" "app_db" {
 
 
 
-parameter group for serveless v2 option above
+# parameter group for serveless v2 option above
 
 resource "aws_rds_cluster_parameter_group" "app-db-pg" {
   name        = "app-db-pg"
