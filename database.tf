@@ -29,7 +29,7 @@ resource "aws_rds_cluster" "app_db" {
   cluster_identifier = "app-db-instance"
   engine             = "aurora-postgresql"
   engine_mode        = "provisioned"
-  engine_version     = "13.3"
+  engine_version     = "13.12"
   database_name      = "n26prod"
   master_username    = "dbuser"
 
