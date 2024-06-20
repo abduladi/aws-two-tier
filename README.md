@@ -69,15 +69,9 @@ DB subnet and NACL do not allow traffic from internet gateway. And s3 has is
 
 10. ensured high availability by distributing each network subnet tier of the architecture into multiple availablity zones
 
-11. implemented routing to enforce zero path the external entities outside the vpc by ensureing no route to the internet gateway is attached to the subnet
 
-
-12. Implemented logging and monitoring for s3 server access logging, s3 cloudtrail data events and PostgreSQL Database logs. Alarms were created and notification setup for 3 security related events
+11. Implemented logging and monitoring for s3 server access logging, s3 cloudtrail data events and PostgreSQL Database logs. Alarms were created and notification setup for 3 security related events
 inspect cloud watch logs for log groups serving as destination for logs from EC2 web service access, s3 cloudtrail events and postgresql. Inspect s3 bucket properties for enabled logging. Inspect cloudwatch log group named "/var/log/messages" for EC2 web service access logs
-
-13. 
-
-
 
 
 8. Used KMS with autmated key rotatioin to manage database password.
