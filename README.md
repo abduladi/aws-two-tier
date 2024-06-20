@@ -75,3 +75,11 @@ inspect cloud watch logs for log groups serving as destination for logs from EC2
 
 
 8. Used KMS with autmated key rotatioin to manage database password.
+
+
+
+
+Second part
+===========
+
+To update a fleet of instances with a new configuration or installation of an agent, I will leverage enterprise ready configuration management tools like Ansible. This gives alot of flexibility to manage configuration requirements and patches for already provisioned resources. Among its benefits is that it is agentless and doesn't consume heavy network resources since it works with a push mechanism. It does not need to maintain connection with resources to pull configurations. It also uses a very simple to read declarative yaml syntax which alot of engineers are typically familiar with
