@@ -29,7 +29,7 @@ resource "aws_rds_cluster" "app_db" {
   cluster_identifier = "app-db-instance"
   engine             = "aurora-postgresql"
   engine_mode        = "provisioned"
-  engine_version     = "15.4"
+  engine_version     = "13.3"
   database_name      = "n26prod"
   master_username    = "dbuser"
 
@@ -67,7 +67,7 @@ resource "aws_rds_cluster_instance" "app_db" {
 
 resource "aws_rds_cluster_parameter_group" "app-db-pg" {
   name        = "app-db-pg"
-  family      = "aurora-postgresql15"
+  family      = "aurora-postgresql13"
   description = "RDS default cluster parameter group"
 
   # Enforcing ssl connection to cluster

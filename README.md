@@ -53,9 +53,12 @@ from autoscaling group detail page, change tab to Automatic Scaling to locate tw
 from Security groups resource page inspect newly provisioned security groups with inbound and outbound rules defined to enforce only needed traffic permissions
 
 6. Implemented data encryption for all data at rest both in database and s3 buckets.
+For data encryption, I have choosen the server side encryption managed by AWS to ensure encrytion of data in transit. This encryption method is symmetric and is managed by AWS key management service and come with additional benefits like automated rotation. There is room to provide 
+
+
 
 7. Enforced TLS connection for DB data in transit by configuring parameter groups for the cluster and setting the rds.force_ssl flag to 1.
-
+navigate to parameter groups and choose the custom parameter grouproup named app-db-pg. Filter for the flag of rds.force_ssl and confirm the value is set to 1
 
 
 
