@@ -1,4 +1,5 @@
-# aws-two-tier
+Multi Tier Application on AWS
+=================================
 
 create access key for an IAM user with permissions to create resources.
 create an aws config profile for this IAM user
@@ -33,21 +34,21 @@ To run using the integrated git hub actions,
 Security Capabilities Implemented
 =================================
 
-installed ssl in certificate maanager and attached to application load balancer's listener.
+1. installed ssl in certificate maanager and attached to application load balancer's listener.
 
-enforced redirect of HTTP traffic to HTTPS. These two are to support the encryption of data in transit
+2. enforced redirect of HTTP traffic to HTTPS. These two are to support the encryption of data in transit
 
-Implemeted web application firewall on the application load balancer
+3. Implemeted web application firewall on the application load balancer
 
-configured autoscaling policy to automate resiliency
+4. configured autoscaling policy to automate resiliency
 
-implemented secruity groups to control traffic for each subnet. This ensures only required traffic needed for smooth running of the architecture are permitted.
+5. implemented secruity groups to control traffic for each subnet. This ensures only required traffic needed for smooth running of the architecture are permitted.
 
-Implemented data encryption for all data at rest both in database and s3 buckets.
+6. Implemented data encryption for all data at rest both in database and s3 buckets.
 
-Ensured data stores (DB and s3 are private and not publicly accessible)
+7. Ensured data stores (DB and s3 are private and not publicly accessible)
 
-ensured high availability by distributing each network subnet tier of the architecture into multiple availablity zones
+8. ensured high availability by distributing each network subnet tier of the architecture into multiple availablity zones
 
-implemented routing to enforce zero path the external entities outside the vpc by ensureing no route to the internet gateway is attached to the subnet
+9. implemented routing to enforce zero path the external entities outside the vpc by ensureing no route to the internet gateway is attached to the subnet
 
